@@ -216,3 +216,40 @@ The application consolidates all responses into a single result.
 		FINAL RESPONSE
 		FraudAnalysisResponse[faceMatch=FaceMatchResponse[matched=true, score=0.98], liveness=LivenessResponse[alive=true, confidence=0.99], bureau=BureauResponse[score=850, approved=true]]
 ````
+
+## Problems before Structured Concurrency
+
+Before Structured Concurrency, concurrency was typically handled using:
+
+- ExecutorService
+- Future
+- CompletableFuture
+
+This led to several architectural problems:
+
+### Problem 1 — Orphaned Threads
+
+Concurrent tasks could continue executing even after:
+
+- timeout,
+- cancellation,
+- failure of the main operation.
+
+This generated:
+
+- waste of resources,
+- unnecessary processing,
+- thread leakage.
+
+### Problem 2 — Decentralized Lifecycle
+
+Manual management required:
+
+- shutdown() 
+- awaitTermination() 
+- cancel() 
+- manual exception handling.
+
+Concurrent logic was scattered throughout the code.
+
+### 
