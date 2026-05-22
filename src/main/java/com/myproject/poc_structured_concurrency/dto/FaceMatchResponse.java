@@ -1,4 +1,4 @@
-package com.myproject.poc_structured_concurrency.dto;// dto/FaceMatchResponse.java
+package com.myproject.poc_structured_concurrency.dto;
 
 public record FaceMatchResponse(
         boolean matched,

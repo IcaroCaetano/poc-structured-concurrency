@@ -1,4 +1,4 @@
-package com.myproject.poc_structured_concurrency.dto;// dto/BureauResponse.java
+package com.myproject.poc_structured_concurrency.dto;
 
 public record BureauResponse(
         int score,

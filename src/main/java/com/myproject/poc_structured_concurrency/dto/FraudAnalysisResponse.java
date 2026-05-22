@@ -1,4 +1,4 @@
-package com.myproject.poc_structured_concurrency.dto;// dto/FraudAnalysisResponse.java
+package com.myproject.poc_structured_concurrency.dto;
 
 public record FraudAnalysisResponse(
         FaceMatchResponse faceMatch,

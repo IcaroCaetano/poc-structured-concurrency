@@ -1,4 +1,4 @@
-package com.myproject.poc_structured_concurrency.util;// LoggerUtil.java
+package com.myproject.poc_structured_concurrency.util;
 
 import com.myproject.poc_structured_concurrency.context.RequestContext;
 
