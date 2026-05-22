@@ -61,10 +61,91 @@ Each integration:
 - executes independently
 
 
+## Application Flow
+
+### 1. The application starts in Main
+
+The Main class:
+
+- generates a requestId,
+- propagates the context using ScopedValue,
+- starts the anti-fraud analysis.
+
+
+````java
+public class PocStructuredConcurrencyApplication {
+
+	 static void main(String[] args) {
+
+		var requestId = UUID.randomUUID().toString();
+
+		ScopedValue.where(RequestContext.REQUEST_ID, requestId)
+				.run(() -> {
+
+					var fraudAnalysisService = new FraudAnalysisService();
+
+					var response = fraudAnalysisService.analyze("12345678900");
+
+					System.out.println("\nFINAL RESPONSE");
+					System.out.println(response);
+				});
+	}
+}
+````
+
+### 2. The FraudAnalysisService initiates the main flow
+
+The FraudAnalysisService is responsible for:
+
+- coordinating all external integrations,
+- opening the structured scope,
+- creating concurrent subtasks,
+- awaiting results.
+
+````java
+public class FraudAnalysisService {
+
+    private final FaceMatchService faceMatchService = new FaceMatchService();
+
+    private final LivenessService livenessService = new LivenessService();
+
+    private final BureauService bureauService = new BureauService();
+
+    public FraudAnalysisResponse analyze(String cpf) {
+
+        LoggerUtil.log("Starting Fraud Analysis");
+
+        try (var scope = StructuredTaskScope.open()) {
+
+            var faceTask = scope.fork(() -> faceMatchService.analyze(cpf));
+
+            var livenessTask = scope.fork(() -> livenessService.analyze(cpf));
+
+            var bureauTask = scope.fork(() -> bureauService.analyze(cpf));
+
+            scope.join();
+
+            LoggerUtil.log("All services finished successfully");
+
+            return new FraudAnalysisResponse(
+                    faceTask.get(),
+                    livenessTask.get(),
+                    bureauTask.get()
+            );
+
+        } catch (Exception e) {
+
+            LoggerUtil.log("Fraud Analysis FAILED");
+
+            throw new RuntimeException(e);
+        }
+    }
+}
+````
+
 
 
 ````
-
 [requestId=c305f92b-14b8-41a1-9ba3-8be2ea97ea4b] [thread=Thread[#3,main,5,main]] Starting Fraud Analysis
 		[requestId=c305f92b-14b8-41a1-9ba3-8be2ea97ea4b] [thread=VirtualThread[#30]/runnable@ForkJoinPool-1-worker-1] Starting Face Match
 		[requestId=c305f92b-14b8-41a1-9ba3-8be2ea97ea4b] [thread=VirtualThread[#35]/runnable@ForkJoinPool-1-worker-2] Starting Liveness
