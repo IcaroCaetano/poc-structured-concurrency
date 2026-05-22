@@ -22,14 +22,11 @@ public class FraudAnalysisService {
 
         try (var scope = StructuredTaskScope.open()) {
 
-            var faceTask =
-                    scope.fork(() -> faceMatchService.analyze(cpf));
+            var faceTask = scope.fork(() -> faceMatchService.analyze(cpf));
 
-            var livenessTask =
-                    scope.fork(() -> livenessService.analyze(cpf));
+            var livenessTask = scope.fork(() -> livenessService.analyze(cpf));
 
-            var bureauTask =
-                    scope.fork(() -> bureauService.analyze(cpf));
+            var bureauTask = scope.fork(() -> bureauService.analyze(cpf));
 
             scope.join();
 
