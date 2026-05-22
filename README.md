@@ -5,6 +5,7 @@
 To demonstrate Structured Concurrency in a real-world scenario.
 
 Suggested architecture
+
 ````
 fraud-analysis-poc
 │
