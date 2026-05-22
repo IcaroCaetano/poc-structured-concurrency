@@ -1,10 +1,9 @@
-package com.myproject.poc_structured_concurrency.service;// service/FraudAnalysisService.java
+package com.myproject.poc_structured_concurrency.service;
 
 import com.myproject.poc_structured_concurrency.dto.FraudAnalysisResponse;
 import com.myproject.poc_structured_concurrency.util.LoggerUtil;
 
 import java.util.concurrent.StructuredTaskScope;
-
 
 public class FraudAnalysisService {
 
@@ -21,8 +20,7 @@ public class FraudAnalysisService {
 
         LoggerUtil.log("Starting Fraud Analysis");
 
-        try (var scope =
-                     new StructuredTaskScope.ShutdownOnFailure()) {
+        try (var scope = StructuredTaskScope.open()) {
 
             var faceTask =
                     scope.fork(() -> faceMatchService.analyze(cpf));
@@ -34,8 +32,6 @@ public class FraudAnalysisService {
                     scope.fork(() -> bureauService.analyze(cpf));
 
             scope.join();
-
-            scope.throwIfFailed();
 
             LoggerUtil.log("All services finished successfully");
 
