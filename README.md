@@ -4,10 +4,10 @@
 
 To demonstrate Structured Concurrency in a real-world scenario.
 
-Suggested architecture
+#### Suggested architecture
 
 ````
-fraud-analysis-poc
+poc-structured-concurrency
 │
 ├── controller
 │   └── FraudController
@@ -38,6 +38,28 @@ Everything coordinated through:
 - StructuredTaskScope
 - Virtual Threads
 - Scoped Values
+
+Business scenario
+
+In real-world anti-fraud systems, it is common for a single analysis to need to consult several external providers simultaneously.
+
+Example:
+
+````
+Fraud Analysis
+    |
+    +--> Face Match Provider
+    +--> Liveness Provider
+    +--> Bureau Score Provider
+````
+
+Each integration:
+
+- has its own latency,
+- can fail,
+- can timeout,
+- executes independently
+
 
 
 

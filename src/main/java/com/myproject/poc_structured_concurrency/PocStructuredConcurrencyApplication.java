@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class PocStructuredConcurrencyApplication {
 
-	public static void main(String[] args) {
+	 static void main(String[] args) {
 
 		var requestId = UUID.randomUUID().toString();
 
