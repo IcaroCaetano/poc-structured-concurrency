@@ -26,6 +26,21 @@ fraud-analysis-poc
 ````
 
 
+The application performs multiple external integrations in parallel:
+
+- Face Match
+- Liveness
+- Bureau Score
+
+
+Everything coordinated through:
+
+- StructuredTaskScope
+- Virtual Threads
+- Scoped Values
+
+
+
 ````
 
 [requestId=c305f92b-14b8-41a1-9ba3-8be2ea97ea4b] [thread=Thread[#3,main,5,main]] Starting Fraud Analysis

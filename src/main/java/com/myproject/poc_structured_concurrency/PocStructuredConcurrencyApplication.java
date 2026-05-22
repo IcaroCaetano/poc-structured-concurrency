@@ -2,12 +2,9 @@ package com.myproject.poc_structured_concurrency;
 
 import com.myproject.poc_structured_concurrency.context.RequestContext;
 import com.myproject.poc_structured_concurrency.service.FraudAnalysisService;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.UUID;
 
-@SpringBootApplication
 public class PocStructuredConcurrencyApplication {
 
 	public static void main(String[] args) {
