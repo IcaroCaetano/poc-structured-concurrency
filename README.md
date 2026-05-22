@@ -252,4 +252,21 @@ Manual management required:
 
 Concurrent logic was scattered throughout the code.
 
-### 
+### Problem 3 — Complex fault propagation
+
+When an integration failed:
+
+- it was difficult to cancel the others,
+- subtasks continued executing,
+- error handling became complex.
+
+### Problem 4 — Poor readability
+
+The relationship between:
+
+- parent task,
+- child tasks,
+- cancellations,
+- synchronization
+
+was not explicit in the code.
