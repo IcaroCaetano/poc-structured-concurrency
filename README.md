@@ -142,7 +142,39 @@ public class FraudAnalysisService {
     }
 }
 ````
+### 3. The StructuredTaskScope creates the concurrent scope.
 
+````
+try (var scope = StructuredTaskScope.open()) {
+````
+#### At this point:
+
+- a structured scope is created,
+- all child tasks become part of the same context,
+- the task lifecycle is automatically controlled.
+
+
+### 4. Each service is executed concurrently with fork()
+
+The application creates three subtasks:
+
+````java
+var faceTask = scope.fork(() -> faceMatchService.analyze(cpf));
+
+var livenessTask = scope.fork(() -> livenessService.analyze(cpf));
+
+var bureauTask = scope.fork(() -> bureauService.analyze(cpf));
+````
+
+#### Each `fork()`:
+
+- creates a Virtual Thread,
+- registers the task in the parent scope,
+- starts concurrent execution.
+
+
+
+### 5. The join() function waits for subtasks.
 
 
 ````
