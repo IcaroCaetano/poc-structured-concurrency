@@ -176,6 +176,30 @@ var bureauTask = scope.fork(() -> bureauService.analyze(cpf));
 
 ### 5. The join() function waits for subtasks.
 
+````
+scope.join();
+````
+
+#### The main flow:
+
+- pause,
+- wait for all subtasks to finish,
+- maintain centralized control of processing.
+
+### 6. The results are aggregated
+
+After all tasks are completed:
+
+````
+return new FraudAnalysisResponse(
+        faceTask.get(),
+        livenessTask.get(),
+        bureauTask.get()
+);
+````
+
+
+
 
 ````
 [requestId=c305f92b-14b8-41a1-9ba3-8be2ea97ea4b] [thread=Thread[#3,main,5,main]] Starting Fraud Analysis
