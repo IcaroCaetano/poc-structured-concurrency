@@ -16,6 +16,7 @@ repositories {
 }
 
 dependencies {
+	implementation("io.github.resilience4j:resilience4j-all:2.3.0")
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
